@@ -9,9 +9,12 @@ Aji is a multiplayer Go/Baduk variant: one shared board, many
 players, **per-player radius** decides whose turn it is locally. Local
 games drift and merge as players move.
 
-Status: **v0 scaffold only.** No game logic has been written yet. Do
-not assume ruleset, WebSocket hub, or board data structures exist — if
-you can't find something, it isn't there yet.
+Status: **v0** — the server-side rule engine lives in
+`server/internal/{board,player,game,world}` and is unit-tested
+(`go test ./internal/...`). The WebSocket hub, wire protocol, client
+rendering, and captures/ko are **not** written yet; if you can't find
+something beyond the rule engine, it isn't there yet. See
+`docs/turn-rules.md` for the rule spec.
 
 ## Repo layout (high level)
 
@@ -25,9 +28,12 @@ Source-of-truth references:
 - Module boundaries: each `server/internal/*/doc.go` states the package's
   responsibility. **Respect them** — e.g. `board` must not import
   `player`; only `net` may touch sockets.
-- Wire protocol: `docs/protocol.md` is the human contract.
-  `server/internal/protocol` and `client/src/net/protocol.ts` must stay
-  in sync with it and with each other.
+- Turn & region rules: `docs/turn-rules.md` is the human contract for
+  the engine in `server/internal/game`. If the code and the doc
+  disagree, the code wins — update the doc in the same change.
+- Wire protocol (not yet written): when the protocol lands it must be
+  kept synchronised three ways — `server/internal/protocol`,
+  `client/src/net/protocol.ts`, and `docs/protocol.md`.
 
 ## Stack
 
@@ -85,11 +91,13 @@ under `~/.claude/plans/`.
   never let client-side rule checks substitute for server-side ones.
 - **Keep `board` pure.** It must not know about players, turns, or
   sockets. Rule novelty (radius, merging) lives in `game`.
-- **Go module path** is `github.com/felixichters/aji/server` — placeholder;
-  if the user sets up a real remote, update `go.mod` and all imports.
+- **Go module path** is `github.com/felixichters/Aji/server` (matches
+  `server/go.mod`) — placeholder; if the user sets up a real remote,
+  update `go.mod` and all imports.
 
 ## Quick verification after changes
 
-- Server: `go build ./... && go vet ./...` from `server/`.
+- Server: `go build ./... && go vet ./... && go test ./internal/...`
+  from `server/`.
 - Client: `pnpm run typecheck` from `client/`.
 - Health probe: `curl http://localhost:8080/healthz` → `ok`.
