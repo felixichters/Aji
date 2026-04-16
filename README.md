@@ -5,7 +5,7 @@ One large board. Many players at once.
 ## Repository layout
 
 ```
-server/   Go backend (rule engin; WebSocket hub next)
+server/   Go backend (rule engine; WebSocket hub next)
 client/   TypeScript + PixiJS web client (scaffold)
 docs/     Design notes
 ```
