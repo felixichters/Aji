@@ -1,0 +1,20 @@
+# Go
+/server/aji-server
+/server/bin/
+/server/**/*.test
+/server/coverage.out
+
+# Node / Vite
+/client/node_modules/
+/client/dist/
+/client/.vite/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Nix / direnv
+.direnv/
+result
+result-*
