@@ -19,7 +19,7 @@ See `server/internal/*/doc.go` and `client/src/*` for module boundaries.
   cyclic turn rotation, and bootstrap rules. Unit-tested.
   See [`docs/turn-rules.md`](docs/turn-rules.md) for the spec.
 - The HTTP server still only exposes `/healthz`. WebSocket transport,
-  wire protocol, and client rendering are planned follow-ups.
+  wire protocol, and client rendering are follow-ups.
 
 ## Stack
 
