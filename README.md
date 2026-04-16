@@ -46,3 +46,13 @@ Health check: `curl http://localhost:8080/healthz` → `ok`.
 | Board        | Fixed huge grid (size configurable, e.g. 200×200)       |
 | Turn model   | Per-player radius                                       |
 | Persistence  | In-memory only (resets on restart)                      |
+
+## Status
+
+| Phase | What | State |
+|-------|------|-------|
+| 1 | Board logic (grid, capture, ko) | done |
+| 2 | Game rules (radius, turn gating, merge) | next |
+| 3 | WebSocket hub + protocol | planned |
+| 4 | Client renderer (PixiJS) | planned |
+| 5 | Integration | planned |
