@@ -179,36 +179,33 @@ func TestSelfCapture(t *testing.T) {
 	}
 }
 
-// TestCaptureBeforeSelfCapture: a move that looks like self-capture is
-// legal when it simultaneously captures all surrounding opponent stones
-// (captures are resolved before the self-capture check).
+// TestCaptureBeforeSelfCapture: captures are resolved before the
+// self-capture check. A move with no free liberties is legal when it
+// simultaneously captures all adjacent opponent stones.
 //
-//	col: 0 1 2
-//	row 0: B W B     each White stone is isolated (no White neighbor)
-//	row 1: W . W     and has no outside liberties (all surrounded by B/OOB)
-//	row 2: B W B
+//	col: 0 1 2 3 4
+//	row 0: . B W B .   ← White at (2,0) has one liberty: (2,1)
+//	row 1: . B . B .
+//	row 2: . B B B .
 //
-// Black plays (1,1): each adjacent White group has 0 liberties → all 4
-// captured. Black then has 4 liberties via the vacated cells. Legal.
+// Black plays (2,1): all four neighbors are occupied (no free liberty),
+// but White at (2,0) is captured first (0 libs), giving Black a liberty
+// at (2,0). Legal.
 func TestCaptureBeforeSelfCapture(t *testing.T) {
-	g := New(3, 3)
-	g = place(t, g, 0, 0, Black)
-	g = place(t, g, 2, 0, Black)
-	g = place(t, g, 0, 2, Black)
-	g = place(t, g, 2, 2, Black)
-	g = place(t, g, 1, 0, White)
-	g = place(t, g, 0, 1, White)
-	g = place(t, g, 2, 1, White)
-	g = place(t, g, 1, 2, White)
+	g := New(5, 3)
+	for _, p := range []Point{{1, 0}, {3, 0}, {1, 1}, {3, 1}, {1, 2}, {2, 2}, {3, 2}} {
+		g = place(t, g, p.X, p.Y, Black)
+	}
+	g = place(t, g, 2, 0, White)
 
-	next, captured, err := PlaceStone(g, 1, 1, Black, Grid{})
+	next, captured, err := PlaceStone(g, 2, 1, Black, Grid{})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if len(captured) != 4 {
-		t.Errorf("expected 4 captures, got %d: %v", len(captured), captured)
+	if len(captured) != 1 || captured[0] != (Point{2, 0}) {
+		t.Errorf("expected White at (2,0) captured, got %v", captured)
 	}
-	if next.At(1, 1) != Black {
+	if next.At(2, 1) != Black {
 		t.Errorf("Black stone missing after capture")
 	}
 }
