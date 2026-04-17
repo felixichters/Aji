@@ -1,4 +1,4 @@
-# Aji (餘味) — a Go derivative
+# Aji (餘味) — a Go variant
 
 One large board. Many players at once. 
 
