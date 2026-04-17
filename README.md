@@ -5,18 +5,18 @@ One large board. Many players at once.
 ## Repository layout
 
 ```
-server/   Go backend (rule engine; WebSocket hub next)
-client/   TypeScript + PixiJS web client (scaffold)
-docs/     Design notes
+server/   Go backend (rule engine + WebSocket hub)
+client/   TypeScript + PixiJS web client (connects to server; no board rendering yet)
+docs/     Design notes and wire protocol catalog
 ```
 
 See `server/internal/*/doc.go` and `client/src/*` for module boundaries.
 
 ## Stack
 
-- **Server**: Go (stdlib HTTP; WebSocket transport follow-up).
+- **Server**: Go (stdlib HTTP + WebSocket via nhooyr.io/websocket).
 - **Client**: TypeScript + [PixiJS](https://pixijs.com) (WebGL) built with [Vite](https://vitejs.dev).
-- **Protocol**: JSON over WebSocket — specced once the transport implemented.
+- **Protocol**: JSON over WebSocket — see `docs/protocol.md`.
 - **Dev env**: Nix `flake.nix` devShell + `just` task runner.
 
 ## Quickstart
