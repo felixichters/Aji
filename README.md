@@ -1,6 +1,6 @@
 # Aji (餘味) — a Go variant
 
-One large board. Many players at once. 
+One large board. Many players at once.
 
 ## Repository layout
 
@@ -11,15 +11,6 @@ docs/     Design notes
 ```
 
 See `server/internal/*/doc.go` and `client/src/*` for module boundaries.
-
-## Current state
-
-- The server-side rule engine (`server/internal/game`) is implemented:
-  per-player radius regions, pairwise engagement on placement, per-clique
-  cyclic turn rotation, and bootstrap rules. Unit-tested.
-  See [`docs/turn-rules.md`](docs/turn-rules.md) for the spec.
-- The HTTP server still only exposes `/healthz`. WebSocket transport,
-  wire protocol, and client rendering are follow-ups.
 
 ## Stack
 

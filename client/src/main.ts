@@ -5,6 +5,8 @@
 // render/, state/, and net/ modules in later steps.
 
 import { Application, Text, TextStyle } from "pixi.js";
+import { connectToServer } from "./net";
+import { subscribe } from "./state/gameState";
 
 async function main(): Promise<void> {
   const host = document.getElementById("app");
@@ -31,8 +33,16 @@ async function main(): Promise<void> {
   title.position.set(app.screen.width / 2, app.screen.height / 2);
   app.stage.addChild(title);
 
-  app.renderer.on("resize", (w, h) => {
+  app.renderer.on("resize", (w: number, h: number) => {
     title.position.set(w / 2, h / 2);
+  });
+
+  // Connect to the game server with a temporary random player ID.
+  const playerId = "player-" + Math.random().toString(36).slice(2, 8);
+  connectToServer(playerId);
+
+  subscribe((state) => {
+    console.log("[aji] state:", state);
   });
 }
 

@@ -9,12 +9,10 @@ Aji is a multiplayer Go/Baduk variant: one shared board, many
 players, **per-player radius** decides whose turn it is locally. Local
 games drift and merge as players move.
 
-Status: **v0** — the server-side rule engine lives in
-`server/internal/{board,player,game,world}` and is unit-tested
-(`go test ./internal/...`). The WebSocket hub, wire protocol, client
-rendering, and captures/ko are **not** written yet; if you can't find
-something beyond the rule engine, it isn't there yet. See
-`docs/turn-rules.md` for the rule spec.
+Status: **v0** — the rule engine, WebSocket hub, wire protocol, and
+client connection + state store are implemented. Client board rendering
+and captures/ko are **not** written yet. See `docs/turn-rules.md` for
+the rule spec and `docs/protocol.md` for the wire protocol.
 
 ## Repo layout (high level)
 
@@ -31,9 +29,10 @@ Source-of-truth references:
 - Turn & region rules: `docs/turn-rules.md` is the human contract for
   the engine in `server/internal/game`. If the code and the doc
   disagree, the code wins — update the doc in the same change.
-- Wire protocol (not yet written): when the protocol lands it must be
-  kept synchronised three ways — `server/internal/protocol`,
-  `client/src/net/protocol.ts`, and `docs/protocol.md`.
+- Wire protocol: `docs/protocol.md` is the human catalog. Changes to
+  message shapes must land in `server/internal/protocol/messages.go`,
+  `client/src/net/protocol.ts`, and `docs/protocol.md` in the same
+  change.
 
 ## Stack
 
@@ -41,7 +40,7 @@ Source-of-truth references:
 |------------|-------------------------------------------|
 | Server     | Go (stdlib HTTP today)                    |
 | Client     | TypeScript + PixiJS v8 (WebGL) via Vite   |
-| Transport  | JSON over WebSocket at `/ws` (planned)    |
+| Transport  | JSON over WebSocket at `/ws`              |
 | Persistence| In-memory only for v0                     |
 | Dev env    | Nix `flake.nix` devShell + `just`         |
 
