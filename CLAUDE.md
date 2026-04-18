@@ -9,16 +9,21 @@ Aji is a multiplayer Go/Baduk variant: one shared board, many
 players, **per-player radius** decides whose turn it is locally. Local
 games drift and merge as players move.
 
-Status: **v0** — the rule engine, WebSocket hub, wire protocol, and
-client connection + state store are implemented. Client board rendering
-and captures/ko are **not** written yet. See `docs/turn-rules.md` for
-the rule spec and `docs/protocol.md` for the wire protocol.
+Status: **v0** — the rule engine, WebSocket hub, wire protocol, client
+connection + state store, board rendering, stone placement, pan/zoom camera,
+and HUD (turn indicator, error display, clique/engagement panel) are implemented.
+Captures/ko are **not** written yet. See `docs/turn-rules.md` for the rule spec
+and `docs/protocol.md` for the wire protocol.
 
 ## Repo layout (high level)
 
 ```
 server/   Go backend
 client/   TypeScript + PixiJS web client
+  src/net/      WebSocket connection + protocol codecs
+  src/state/    Immutable game state store (pub/sub)
+  src/render/   PixiJS board, stones, camera, colors
+  src/ui/       HTML/CSS overlay (side panel HUD)
 docs/     Human-readable design / protocol notes
 ```
 

@@ -6,7 +6,7 @@ One large board. Many players at once.
 
 ```
 server/   Go backend (rule engine + WebSocket hub)
-client/   TypeScript + PixiJS web client (connects to server; no board rendering yet)
+client/   TypeScript + PixiJS web client (board rendering, stones, pan/zoom camera, HUD)
 docs/     Design notes and wire protocol catalog
 ```
 
