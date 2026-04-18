@@ -72,10 +72,9 @@ export class StoneRenderer {
     this.radiusGfx.clear();
     const radiusPx = this.radius * CELL_SIZE;
 
-    // engaged players' radii (dimmed, in their color)
+    // engaged players' radii (dimmed)
     for (const p of snapshot.players) {
       if (!engagedIds.has(p.id)) continue;
-      const color = playerColor(p.joinSeq);
       for (const c of p.stones) {
         this.radiusGfx.circle(c.x * CELL_SIZE, c.y * CELL_SIZE, radiusPx);
       }
